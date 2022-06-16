@@ -1,0 +1,5 @@
+- name: Install software
+  import_playbook: install.yml
+
+- name: create networks
+  import_playbook: vm_network.yml

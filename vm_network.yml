@@ -1,0 +1,33 @@
+---
+- name: create networks
+  hosts: all
+
+  vars:
+    vm_networks:
+      - name: local10_0_0_0
+        file: files/local1000.xml
+      - name: local10_0_1_0
+        file: files/local1001.xml
+
+
+  tasks:
+    - name: create additional networks for vms
+      community.libvirt.virt_net:
+        command: define
+        xml: "{{ lookup('file', item.file) }}"
+        name: "{{ item.name }}"
+        state: present
+      loop: "{{ vm_networks }}"
+
+    - name: start additional networks for vms
+      community.libvirt.virt_net:
+        command: start
+        name: "{{ item.name }}"
+      loop: "{{ vm_networks }}"
+
+    - name: set autostart for additional networks for vms
+      community.libvirt.virt_net:
+        autostart: yes
+        name: "{{ item.name }}"
+      loop: "{{ vm_networks }}"
+
