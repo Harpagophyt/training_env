@@ -1,0 +1,52 @@
+---
+centos_image_url: https://cloud.centos.org/centos/9-stream/x86_64/images/
+centos_image_file: CentOS-Stream-GenericCloud-9-20220606.0.x86_64.qcow2
+centos_download_url: "{{ centos_image_url }}/{{ centos_image_file }}"
+centos_checksum: "sha256:41c8cce7b5ed9ba70f7f103f058bd6320e3462f2dc2c97db84ad7f1c6918a525"
+debian_image_url: https://cloud.debian.org/images/cloud/bullseye/latest/
+debian_image_file: debian-11-genericcloud-amd64.qcow2
+debian_download_url: "{{ debian_image_url }}/{{ debian_image_file }}"
+debian_checksum: "sha512:6606067c261aad6f0a079506b20f4e28237e2c03c1e8e00d0ad569fdb7c417dbc33614aaa4fb0592eaea8afcbde48d592dd4f68acddb44724841e00dc68ddcc0"
+
+# type is used for ansible when:
+# os is used for virt-builder command
+# osinfo is used for virt-install command
+vms:
+  - name: node1
+    type: debian
+    os: debian-11
+    osinfo: debian11
+    ram: 2048
+    size: 8G
+    network:
+      - nic:
+        ip: 10.0.0.1
+        mac: 52:54:00:00:00:01
+        subnet: 24
+      - nic:
+        mac: 52:54:00:00:01:01
+        subnet: 24
+      - nic:
+        mac: 52:54:00:00:02:01
+        subnet: 24
+  - name: node2
+    type: debian
+    os: debian-11
+    osinfo: debian11
+    ram: 2048
+    size: 8G
+    network:
+      - nic:
+        ip: 10.0.0.1
+        mac: 52:54:00:00:00:01
+        subnet: 24
+      - nic:
+        mac: 52:54:00:00:01:01
+        subnet: 24
+
+#  tasks:
+#    - name: test sth
+#      debug:
+#        msg: "VM {{ vm[0].network[0].ip }}"
+#        #var: vm
+

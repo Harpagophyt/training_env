@@ -1,0 +1,8 @@
+== bin/init.sh
+erzeugt das lokale environment
+
+== bin/build_inventory.sh
+mit nmap wird eine Liste aller IP Adressen des subnets erzeugt.
+Das subnet muss angegeben werden.
+Beispiel: `bin/build_inventory.sh 192.168.1.0/24`
+

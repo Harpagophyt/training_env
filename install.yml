@@ -1,0 +1,35 @@
+---
+- name: install all software and start it
+  hosts: all
+
+  tasks:
+    - name: install all for kvm
+      ansible.builtin.yum:
+        name:
+          - epel-release
+          - git
+          - virt-install
+          - libvirt
+          - libguestfs-tools
+          - cockpit-machines
+          - sshpass
+        state: present
+        
+    - name: start virtualization
+      ansible.builtin.systemd:
+        name: libvirtd.service
+        enabled: yes
+        state: started
+
+    - name: start cockpit
+      ansible.builtin.systemd:
+        name: cockpit.socket
+        enabled: yes
+        state: started
+
+    - name: extend path with /usr/local/bin in sudoers file
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        backrefs: yes
+        regexp: "^(Defaults\\s+secure_path\\s*=\\s*.+(?<!\\/usr\\/local\\/bin))$"
+        line: "\\1:/usr/local/bin"

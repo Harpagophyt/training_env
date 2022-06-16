@@ -1,0 +1,20 @@
+---
+- name: Download qcow2 images
+  hosts: localhost
+  gather_facts: no
+
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Download centos image
+      ansible.builtin.get_url:
+        url: "{{ centos_download_url }}"
+        dest: "files/{{ centos_image_file }}"
+        checksum: "{{ centos_checksum }}"
+    - name: Download debian image
+      ansible.builtin.get_url:
+        url: "{{ debian_download_url }}"
+        dest: "files/{{ debian_image_file }}"
+        checksum: "{{ debian_checksum }}"
