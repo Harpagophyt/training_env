@@ -1,0 +1,14 @@
+---
+- name: Build all vms
+  hosts: all
+  gather_facts: no
+  
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: build vm
+      ansible.builtin.include_tasks: build_vms.inc.yml
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: vm

@@ -1,0 +1,11 @@
+# static example:
+# auto ens1
+# iface ens1 inet static
+#   address 192.0.2.7/24
+#   gateway 192.0.2.254
+
+{% for nic in vm.network %}
+auto ens{{ loop.index }}
+allow-hotplug ens{{ loop.index }}
+iface ens{{ loop.index }} inet dhcp
+{% endfor %}

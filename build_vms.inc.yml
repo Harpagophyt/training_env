@@ -1,0 +1,73 @@
+- name: build debian image {{ vm.name }}
+  ansible.builtin.command:
+    argv:
+      - virt-builder
+      - "{{ vm.os }}"
+      - --size 
+      - "{{ vm.size }}"
+      - --hostname 
+      - '{{ vm.name + "." + vm_domain_name }}'
+      - --output 
+      - '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+      - --format 
+      - qcow2
+      - --firstboot-command 
+      - dpkg-reconfigure openssh-server
+      - --root-password 
+      - password:redhat
+      - --timezone
+      - Europe/Vienna
+      - --edit
+      - /etc/network/interfaces:s/^.*ens2.*$//
+      - --write
+      - /etc/network/interfaces.d/custom:{{ lookup('template', 'templates/debian_interfaces.j2') }}
+      - --update
+    creates: '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+  when: vm.type == "debian"
+
+- name: install vm {{ vm.name }}
+  ansible.builtin.command:
+    argv:
+      - virt-install
+      - --name
+      - "{{ vm.name }}"
+      - --import
+      - --ram
+      - "{{ vm.ram }}"
+      - --disk
+      - '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+      - --osinfo
+      - "{{ vm.osinfo }}"
+      - --noautoconsole
+      - --network
+      - none
+  when: vm.type == "debian"
+
+- name: attach nics to {{ vm.name }}
+  ansible.builtin.command:
+    argv:
+      - virsh
+      - attach-interface
+      - --domain
+      - "{{ vm.name }}"
+      - --type
+      - network
+      - --source
+      - "{{ nic.vm_net }}"
+      - --config
+      - --mac
+      - "{{ nic.mac }}"
+  loop: "{{ vm.network }}"
+  loop_control:
+    loop_var: nic
+  when: vm.type == "debian"
+
+- name: shutdown vm {{ vm.name }}
+  community.libvirt.virt:
+    name: "{{ vm.name }}"
+    command: destroy
+
+- name: start vm {{ vm.name }}
+  community.libvirt.virt:
+    name: "{{ vm.name }}"
+    command: start

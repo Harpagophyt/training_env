@@ -8,6 +8,9 @@ debian_image_file: debian-11-genericcloud-amd64.qcow2
 debian_download_url: "{{ debian_image_url }}/{{ debian_image_file }}"
 debian_checksum: "sha512:6606067c261aad6f0a079506b20f4e28237e2c03c1e8e00d0ad569fdb7c417dbc33614aaa4fb0592eaea8afcbde48d592dd4f68acddb44724841e00dc68ddcc0"
 
+vm_image_path: /var/lib/libvirt/images
+vm_domain_name: local.example.com
+
 # type is used for ansible when:
 # os is used for virt-builder command
 # osinfo is used for virt-install command
@@ -20,15 +23,35 @@ vms:
     size: 8G
     network:
       - nic:
+        vm_net: default
+        mac: "52:54:00:00:02:01"
+        subnet: 24
+      - nic:
+        mac: "52:54:00:00:00:01"
+        vm_net: local10_0_0_0
         ip: 10.0.0.1
-        mac: 52:54:00:00:00:01
         subnet: 24
       - nic:
-        mac: 52:54:00:00:01:01
+        vm_net: local10_0_1_0
+        mac: "52:54:00:00:01:01"
+        ip: 10.0.1.1
         subnet: 24
-      - nic:
-        mac: 52:54:00:00:02:01
-        subnet: 24
+    disks:
+      - disk:
+        size: 2G
+        name: vdb
+      - disk:
+        size: 2G
+        name: vdc
+      - disk:
+        size: 2G
+        name: vdd
+      - disk:
+        size: 2G
+        name: vde
+      - disk:
+        size: 2G
+        name: vdf
   - name: node2
     type: debian
     os: debian-11
@@ -37,12 +60,31 @@ vms:
     size: 8G
     network:
       - nic:
-        ip: 10.0.0.1
-        mac: 52:54:00:00:00:01
+        vm_net: local10_0_0_0
+        mac: "52:54:00:00:00:01"
+        ip: 10.0.0.2
         subnet: 24
       - nic:
-        mac: 52:54:00:00:01:01
+        mac: "52:54:00:00:01:01"
+        vm_net: local10_0_1_0
+        ip: 10.0.1.2
         subnet: 24
+    disks:
+      - disk:
+        size: 2G
+        name: vdb
+      - disk:
+        size: 2G
+        name: vdc
+      - disk:
+        size: 2G
+        name: vdd
+      - disk:
+        size: 2G
+        name: vde
+      - disk:
+        size: 2G
+        name: vdf
 
 #  tasks:
 #    - name: test sth
