@@ -2,3 +2,4 @@
 collections:
   - community.libvirt
   - ansible.posix
+  - community.crypto

@@ -1,0 +1,55 @@
+---
+- name: clean environment
+  hosts: all
+
+  vars_files:
+    - ../vars/vars.yml
+
+  tasks:
+    - name: forced stop all vms
+      ansible.builtin.command:
+        argv:
+          - virsh
+          - destroy
+          - "{{ vm.name }}"
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: vm
+      ignore_errors: yes
+
+    - name: remove all vms with attached storage {{ vm.name }}
+      ansible.builtin.command:
+        argv:
+          - virsh
+          - undefine
+          - "{{ vm.name }}"
+          - --remove-all-storage
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: vm
+      ignore_errors: yes
+
+    - name: remove all vm networks
+      community.libvirt.virt_net:
+        name: "{{ vm_network.name }}"
+        state: absent
+      loop: "{{ vm_networks }}"
+      loop_control:
+        loop_var: vm_network
+
+    - name: stop virtualization
+      ansible.builtin.systemd:
+        name: libvirtd.service
+        enabled: no
+        state: stopped
+
+    - name: stop cockpit
+      ansible.builtin.systemd:
+        name: cockpit.socket
+        enabled: no
+        state: stopped
+
+    - name: remove all for kvm
+      ansible.builtin.yum:
+        name: "{{ software }}"
+        state: removed

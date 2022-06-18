@@ -1,0 +1,10 @@
+Host *
+    StrictHostKeyChecking no
+    IdentityFile /root/.ssh/vm
+    User root
+    UserKnownHostsFile /dev/null
+
+{% for vm in vms %}
+Host {{ vm.name }}
+    HostName {{ vm.network.0.ip }}
+{% endfor %}

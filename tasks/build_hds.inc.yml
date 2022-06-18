@@ -1,3 +1,12 @@
+- name: register vm machine info
+  ansible.builtin.command:
+    argv:
+      - virsh
+      - dumpxml
+      - "{{ vm.name }}"
+  register: vm_machine_info
+  changed_when: false
+
 - name: create qcow image file for {{ vm.name }}
   ansible.builtin.command:
     argv:
@@ -13,6 +22,10 @@
   loop: "{{ vm.disks }}"
   loop_control:
     loop_var: hd
+  when: 
+    - vm.disks is defined
+    - vm.disks | type_debug == 'list'
+    - vm.disks | length > 0
 
 - name: attach qcow image file to {{ vm.name }}
   ansible.builtin.command:
@@ -29,6 +42,11 @@
   loop: "{{ vm.disks }}"
   loop_control:
     loop_var: hd
+  when: 
+    - vm.disks is defined
+    - vm.disks | type_debug == 'list'
+    - vm.disks | length > 0
+    - ("dev=" + "'" + hd.name) not in vm_machine_info 
 
 - name: shutdown vm {{ vm.name }}
   community.libvirt.virt:

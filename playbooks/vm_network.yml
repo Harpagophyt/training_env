@@ -2,13 +2,8 @@
 - name: create networks
   hosts: all
 
-  vars:
-    vm_networks:
-      - name: local10_0_0_0
-        file: ../files/local1000.xml
-      - name: local10_0_1_0
-        file: ../files/local1001.xml
-
+  vars_files:
+    - ../vars/vars.yml
 
   tasks:
     - name: create additional networks for vms

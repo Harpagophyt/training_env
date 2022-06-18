@@ -2,17 +2,18 @@
 - name: install all software and start it
   hosts: all
 
+  vars_files:
+    - ../vars/vars.yml
+
   tasks:
+    - name: install epel-release explicit
+      ansible.builtin.yum:
+        name: epel-release
+        state: present
+
     - name: install all for kvm
       ansible.builtin.yum:
-        name:
-          - epel-release
-          - git
-          - virt-install
-          - libvirt
-          - libguestfs-tools
-          - cockpit-machines
-          - sshpass
+        name: "{{ software }}"
         state: present
         
     - name: start virtualization

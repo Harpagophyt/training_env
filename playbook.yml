@@ -2,6 +2,9 @@
 - name: Install software
   import_playbook: playbooks/install.yml
 
+- name: generate local ssh keypair
+  import_playbook: playbooks/generate_sshkey.yml
+
 - name: create networks
   import_playbook: playbooks/vm_network.yml
 

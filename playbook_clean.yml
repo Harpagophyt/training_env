@@ -1,0 +1,3 @@
+---
+- name: Remove environment
+  import_playbook: playbooks/clean_env.yml

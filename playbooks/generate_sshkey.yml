@@ -1,0 +1,29 @@
+---
+- name: generate ssh key 
+  hosts: localhost
+
+  vars_files:
+    - ../vars/vars.yml
+
+  tasks:
+    - name: generate root .ssh directory
+      ansible.builtin.file:
+        path: /root/.ssh
+        state: directory
+        owner: root
+        group: root
+        mode: '0750'
+
+    - name: generate ssh key pair
+      community.crypto.openssh_keypair:
+        path: "{{ ssh_key_file_name }}"
+        force: true
+
+    - name: create ssh config file for root
+      ansible.builtin.template:
+        src: ../templates/ssh_config.j2
+        dest: /root/.ssh/config
+        owner: root
+        group: root
+        mode: '0600'
+

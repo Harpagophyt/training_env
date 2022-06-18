@@ -1,0 +1,6 @@
+<network>
+  <name>local10_0_2_0</name>
+  <bridge name='virbr3' stp='on' delay='0'/>
+  <ip address='10.0.2.254' netmask='255.255.255.0'>
+  </ip>
+</network>

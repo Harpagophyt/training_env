@@ -7,6 +7,12 @@
     - ../vars/vars.yml
 
   tasks:
+    - name: get existings vms
+      community.libvirt.virt:
+        command: list_vms
+      register: existing_vms
+      changed_when: false
+
     - name: build vm
       ansible.builtin.include_tasks: ../tasks/build_vms.inc.yml
       loop: "{{ vms }}"
