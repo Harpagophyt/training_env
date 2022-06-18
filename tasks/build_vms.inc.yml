@@ -19,8 +19,10 @@
       - Europe/Vienna
       - --edit
       - /etc/network/interfaces:s/^.*ens2.*$//
+      - --edit
+      - /etc/ssh/sshd_config:s/^[#]?PermitRootLogin/PermitRootLogin yes/
       - --write
-      - /etc/network/interfaces.d/custom:{{ lookup('template', 'templates/debian_interfaces.j2') }}
+      - /etc/network/interfaces.d/custom:{{ lookup('template', '../templates/debian_interfaces.j2') }}
       - --update
     creates: '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
   when: vm.type == "debian"

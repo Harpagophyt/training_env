@@ -1,0 +1,42 @@
+- name: create qcow image file for {{ vm.name }}
+  ansible.builtin.command:
+    argv:
+      - qemu-img
+      - create
+      - -f
+      - qcow2
+      - -o
+      - "preallocation=metadata"
+      - "{{ vm_image_path + '/' + vm.name + '_' + hd.name + '.qcow2' }}"
+      - "{{ hd.size }}"
+    creates: "{{ vm_image_path + '/' + vm.name + '_' + hd.name + '.qcow2' }}"
+  loop: "{{ vm.disks }}"
+  loop_control:
+    loop_var: hd
+
+- name: attach qcow image file to {{ vm.name }}
+  ansible.builtin.command:
+    argv:
+      - virsh
+      - attach-disk
+      - "{{ vm.name }}"
+      - --source
+      - "{{ vm_image_path + '/' + vm.name + '_' + hd.name + '.qcow2' }}"
+      - "{{ hd.name }}"
+      - --subdriver
+      - qcow2
+      - --config
+  loop: "{{ vm.disks }}"
+  loop_control:
+    loop_var: hd
+
+- name: shutdown vm {{ vm.name }}
+  community.libvirt.virt:
+    name: "{{ vm.name }}"
+    command: destroy
+
+- name: start vm {{ vm.name }}
+  community.libvirt.virt:
+    name: "{{ vm.name }}"
+    command: start
+

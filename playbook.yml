@@ -1,6 +1,10 @@
+---
 - name: Install software
-  import_playbook: install.yml
+  import_playbook: playbooks/install.yml
 
 - name: create networks
-  import_playbook: vm_network.yml
+  import_playbook: playbooks/vm_network.yml
+
+- name: build vms
+  import_playbook: playbooks/build_vms.yml
 

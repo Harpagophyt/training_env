@@ -4,8 +4,17 @@
 #   address 192.0.2.7/24
 #   gateway 192.0.2.254
 
-{% for nic in vm.network %}
+{% for key, nic in vm.network %}
+	{% if nic[key]["vm_net"] == "default" %}
+
 auto ens{{ loop.index }}
 allow-hotplug ens{{ loop.index }}
 iface ens{{ loop.index }} inet dhcp
+
+	{% endif %}
+
+#auto ens{{ loop.index }}
+#allow-hotplug ens{{ loop.index }}
+#iface ens{{ loop.index }} inet dhcp
+
 {% endfor %}
