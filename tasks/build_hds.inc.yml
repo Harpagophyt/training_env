@@ -7,6 +7,15 @@
   register: vm_machine_info
   changed_when: false
 
+- name: register blklist from vm {{ vm.name }}
+  ansible.builtin.command:
+    argv:
+      - virsh
+      - domblklist
+      - "{{ vm.name }}"
+  register: vm_hd_list
+  changed_when: false
+
 - name: create qcow image file for {{ vm.name }}
   ansible.builtin.command:
     argv:
@@ -46,7 +55,7 @@
     - vm.disks is defined
     - vm.disks | type_debug == 'list'
     - vm.disks | length > 0
-    - ("dev=" + "'" + hd.name) not in vm_machine_info 
+    - (vm_image_path + '/' + vm.name + '_' + hd.name + '.qcow2') not in vm_hd_list.stdout
 
 - name: shutdown vm {{ vm.name }}
   community.libvirt.virt:

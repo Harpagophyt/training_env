@@ -6,7 +6,14 @@
     - ../vars/vars.yml
 
   tasks:
-    - name: forced stop all vms
+    - name: get all attached hds from vms
+      ansible.builtin.shell: virsh domblklist {{ vm.name }} | tail -n +3 | awk '{ print $2 }'
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: vm
+      register: hds_exists
+
+    - name: forced stop vms
       ansible.builtin.command:
         argv:
           - virsh
@@ -17,7 +24,7 @@
         loop_var: vm
       ignore_errors: yes
 
-    - name: remove all vms with attached storage {{ vm.name }}
+    - name: remove all vms with attached storage 
       ansible.builtin.command:
         argv:
           - virsh
@@ -37,19 +44,26 @@
       loop_control:
         loop_var: vm_network
 
-    - name: stop virtualization
-      ansible.builtin.systemd:
-        name: libvirtd.service
-        enabled: no
-        state: stopped
+#    - name: stop virtualization
+#      ansible.builtin.systemd:
+#        name: libvirtd.service
+#        enabled: no
+#        state: stopped
+#
+#    - name: stop cockpit
+#      ansible.builtin.systemd:
+#        name: cockpit.socket
+#        enabled: no
+#        state: stopped
+#
+#    - name: remove all for kvm
+#      ansible.builtin.yum:
+#        name: "{{ software }}"
+#        state: removed
 
-    - name: stop cockpit
-      ansible.builtin.systemd:
-        name: cockpit.socket
-        enabled: no
-        state: stopped
+    - name: remove harddisks
+      ansible.builtin.file:
+        state: absent
+        path: "{{ item }}"
+      loop: "{{ hds_exists.results | map(attribute='stdout_lines') | list | flatten }}"
 
-    - name: remove all for kvm
-      ansible.builtin.yum:
-        name: "{{ software }}"
-        state: removed
