@@ -1,7 +1,15 @@
-== bin/init.sh
+= Anleitung und Informationen
+
+== Vorbereitung
+Kontrollieren, ob Plattenplatz genug vorhanden ist
+Variablen ändern in vars/vars.yml
+vm_image_path -> wohin die images gelegt werden sollen
+ssh_user -> welcher user ist der Teilnehmer, wer baut die Verbindungen auf?
+
+=== bin/init.sh
 erzeugt das lokale environment
 
-== bin/build_inventory.sh
+=== bin/build_inventory.sh
 mit nmap wird eine Liste aller IP Adressen des subnets erzeugt.
 Das subnet muss angegeben werden.
 Beispiel: `bin/build_inventory.sh 192.168.1.0/24`

@@ -67,3 +67,7 @@
         path: "{{ item }}"
       loop: "{{ hds_exists.results | map(attribute='stdout_lines') | list | flatten }}"
 
+    - name: remove generated ssh key
+      community.crypto.openssh_keypair:
+        path: "{{ ssh_key_file_name }}"
+        state: absent

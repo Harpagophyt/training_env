@@ -8,7 +8,7 @@
   tasks:
     - name: generate root .ssh directory
       ansible.builtin.file:
-        path: /root/.ssh
+        path: "/{{ ssh_user }}/.ssh"
         state: directory
         owner: root
         group: root
@@ -17,12 +17,13 @@
     - name: generate ssh key pair
       community.crypto.openssh_keypair:
         path: "{{ ssh_key_file_name }}"
-        force: true
+        state: present
+        force: "{{ force_generate_ssh_key | default(false, true) }}"
 
     - name: create ssh config file for root
       ansible.builtin.template:
         src: ../templates/ssh_config.j2
-        dest: /root/.ssh/config
+        dest: "/{{ ssh_user }}/.ssh/config"
         owner: root
         group: root
         mode: '0600'

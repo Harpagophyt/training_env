@@ -10,8 +10,9 @@ debian_checksum: "sha512:6606067c261aad6f0a079506b20f4e28237e2c03c1e8e00d0ad569f
 
 vm_image_path: /var/lib/libvirt/images
 vm_domain_name: local.example.com
-
-ssh_key_file_name: /root/.ssh/vm
+force_generate_ssh_key: false
+ssh_user: root
+ssh_key_file_name: "/{{ ssh_user }}/.ssh/vm"
 
 vm_networks:
   - name: local10_0_0_0
