@@ -1,2 +1,4 @@
 dummy.yml
 dummy.j2
+*.swp
+*.swo
