@@ -10,7 +10,7 @@ debian_checksum: "sha512:6606067c261aad6f0a079506b20f4e28237e2c03c1e8e00d0ad569f
 
 vm_image_path: /var/lib/libvirt/images
 vm_domain_name: local.example.com
-force_generate_ssh_key: false
+force_generate_ssh_key: true
 ssh_user: root
 ssh_key_file_name: "/{{ ssh_user }}/.ssh/vm"
 
@@ -27,9 +27,9 @@ vm_networks:
 # osinfo is used for virt-install command
 vms:
   - name: node1
-    type: debian
-    os: debian-11
-    osinfo: debian11
+    type: centos
+    os: centosstream-9
+    osinfo: centos-stream9
     ram: 2048
     size: 8G
     dns: 10.0.0.254
@@ -67,9 +67,9 @@ vms:
         size: 2G
         name: vdf
   - name: node2
-    type: debian
-    os: debian-11
-    osinfo: debian11
+    type: centos
+    os: centosstream-9
+    osinfo: centos-stream9
     ram: 2048
     size: 8G
     dns: 10.0.1.254
@@ -102,9 +102,9 @@ vms:
         size: 2G
         name: vdf
   - name: node3
-    type: debian
-    os: debian-11
-    osinfo: debian11
+    type: centos
+    os: centosstream-9
+    osinfo: centos-stream9
     ram: 2048
     size: 8G
     dns: 10.0.1.254

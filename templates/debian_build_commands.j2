@@ -1,0 +1,10 @@
+root-password password:redhat
+timezone Europe/Vienna
+edit /etc/ssh/sshd_config:s/^[#]?PermitRootLogin.*$/PermitRootLogin yes/
+ssh-inject root:file:{{ ssh_key_file_name }}.pub
+firstboot-command dpkg-reconfigure openssh-server
+firstboot-command update-alternatives --set editor /usr/bin/vim.basic
+edit /etc/network/interfaces:s/^.*ens2.*$//
+write /root/.selected_editor:SELECTED_EDITOR=/usr/bin/vim.basic
+#update
+install vim
