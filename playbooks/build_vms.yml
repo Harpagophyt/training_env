@@ -14,7 +14,7 @@
       changed_when: false
 
     - name: build vm
-      ansible.builtin.include_tasks: ../tasks/build_vms.inc.yml
+      ansible.builtin.include_tasks: "../tasks/build_vms_{{ vm.type }}.inc.yml"
       loop: "{{ vms }}"
       loop_control:
         loop_var: vm
