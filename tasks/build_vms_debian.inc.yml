@@ -1,8 +1,7 @@
 - name: create file for customize the build
   template:
     src: ../templates/debian_build_commands.j2
-    dest: /tmp/debian_build_commands
-  delegate_to: 127.0.0.1
+    dest: "{{ virt_builder_customize_temp_file }}"
 
 - name: build debian image {{ vm.name }}
   ansible.builtin.command:
@@ -22,7 +21,8 @@
       - --write
       - "/etc/resolv.conf:{{ lookup('template', '../templates/resolv.conf.j2') }}"
       - --commands-from-file
-      - /tmp/debian_build_commands
+      - "{{ virt_builder_customize_temp_file }}"
+    creates: '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
   when: vm.type == "debian"
 
 - name: install vm {{ vm.name }}
@@ -44,6 +44,10 @@
   when: 
     - vm.type == "debian"
     - vm.name not in existing_vms.list_vms
+
+- name: pause because of troubles if boot is not finished
+  ansible.builtin.pause:
+    seconds: 5
 
 - name: register existing nics in vm {{ vm.name }}
   ansible.builtin.command:

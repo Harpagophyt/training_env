@@ -12,7 +12,9 @@ vm_image_path: /var/lib/libvirt/images
 vm_domain_name: local.example.com
 force_generate_ssh_key: true
 ssh_user: root
-ssh_key_file_name: "/{{ ssh_user }}/.ssh/vm"
+ssh_user_home: /root/
+ssh_key_file_name: "{{ ssh_user_home }}/.ssh/vm"
+virt_builder_customize_temp_file: /tmp/virt_builder_customize_file
 
 vm_networks:
   - name: local10_0_0_0

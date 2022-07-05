@@ -1,8 +1,7 @@
 Host *
     StrictHostKeyChecking no
-    IdentityFile /{{ ssh_user }}/.ssh/vm
+    IdentityFile {{ ssh_key_file_name | realpath }}
     User root
-    UserKnownHostsFile /dev/null
 
 {% for vm in vms %}
 Host {{ vm.name }}

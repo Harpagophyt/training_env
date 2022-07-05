@@ -1,8 +1,7 @@
 - name: create file for customize the build
   template:
     src: ../templates/centos_build_commands.j2
-    dest: /tmp/centos_build_commands
-  delegate_to: 127.0.0.1
+    dest: "{{ virt_builder_customize_temp_file }}"
 
 - name: build centos image {{ vm.name }}
   ansible.builtin.command:
@@ -18,7 +17,7 @@
       - --format 
       - qcow2
       - --commands-from-file
-      - /tmp/centos_build_commands
+      - "{{ virt_builder_customize_temp_file }}"
     creates: '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
   when: vm.type == "centos"
 
@@ -41,6 +40,10 @@
   when: 
     - vm.type == "centos"
     - vm.name not in existing_vms.list_vms
+
+- name: pause because of troubles if boot is not finished
+  ansible.builtin.pause:
+    seconds: 5
 
 - name: register existing nics in vm {{ vm.name }}
   ansible.builtin.command:
@@ -82,3 +85,4 @@
     name: "{{ vm.name }}"
     command: start
     autostart: true
+
