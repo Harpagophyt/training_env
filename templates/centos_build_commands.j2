@@ -5,14 +5,15 @@ ssh-inject root:file:{{ ssh_key_file_name }}.pub
 
 {% for nic in vm.network %}
 {% if nic.gw is defined %}
-firstboot-command nmcli connection add con-name ens{{ loop.index }} autoconnect yes ifname ens{{ loop.index }} type ethernet ipv4.method manual ipv4.addresses {{ nic.ip }}/{{ nic.subnet }} ipv4.gateway {{ nic.gw }}
-firstboot-command nmcli connection up ens{{ loop.index }}
+firstboot-command nmcli connection add con-name enp{{ loop.index }}s0 autoconnect yes ifname enp{{ loop.index }}s0 type ethernet ipv4.method manual ipv4.addresses {{ nic.ip }}/{{ nic.subnet }} ipv4.gateway {{ nic.gw }}
+firstboot-command nmcli connection up enp{{ loop.index }}s0
 {% else %}
-firstboot-command nmcli connection add con-name ens{{ loop.index }} autoconnect yes ifname ens{{ loop.index }} type ethernet ipv4.method manual ipv4.addresses {{ nic.ip }}/{{ nic.subnet }}
-firstboot-command nmcli connection up ens{{ loop.index }}
+firstboot-command nmcli connection add con-name enp{{ loop.index }}s0 autoconnect yes ifname enp{{ loop.index }}s0 type ethernet ipv4.method manual ipv4.addresses {{ nic.ip }}/{{ nic.subnet }}
+firstboot-command nmcli connection up enp{{ loop.index }}s0
 {% endif %}
 {% endfor %}
-firstboot-command nmcli connection modify ens1 ipv4.dns {{ vm.dns }} ipv4.dns-search {{ vm_domain_name }}
+firstboot-command nmcli connection modify enp1s0 ipv4.dns {{ vm.dns }} ipv4.dns-search {{ vm_domain_name }}
+firstboot-command nmcli connection up enp1s0
 #firstboot-command dnf -y update
 #update
 install bash-completion,vim

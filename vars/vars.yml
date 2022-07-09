@@ -54,20 +54,15 @@ vms:
         subnet: 24
     disks:
       - disk:
-        size: 2G
-        name: vdb
+        size: 2
       - disk:
-        size: 2G
-        name: vdc
+        size: 2
       - disk:
-        size: 2G
-        name: vdd
+        size: 2
       - disk:
-        size: 2G
-        name: vde
+        size: 2
       - disk:
-        size: 2G
-        name: vdf
+        size: 2
   - name: node2
     type: centos
     os: centosstream-9
@@ -89,20 +84,15 @@ vms:
         subnet: 24
     disks:
       - disk:
-        size: 2G
-        name: vdb
+        size: 2
       - disk:
-        size: 2G
-        name: vdc
+        size: 2
       - disk:
-        size: 2G
-        name: vdd
+        size: 2
       - disk:
-        size: 2G
-        name: vde
+        size: 2
       - disk:
-        size: 2G
-        name: vdf
+        size: 2
   - name: node3
     type: centos
     os: centosstream-9
@@ -160,6 +150,13 @@ vms:
         vm_net: local10_0_2_0
         ip: 10.0.2.5
         subnet: 24
+    disks:
+      - disk:
+        size: 2
+      - disk:
+        size: 2
+      - disk:
+        size: 2
 
 software:
   - git

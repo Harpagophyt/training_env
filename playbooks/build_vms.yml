@@ -14,13 +14,14 @@
       changed_when: false
 
     - name: build vm
-      ansible.builtin.include_tasks: "../tasks/build_vms_{{ vm.type }}.inc.yml"
+      ansible.builtin.include_tasks: "../tasks/build_vms.inc.yml"
       loop: "{{ vms }}"
       loop_control:
         loop_var: vm
 
-    - name: build hds
-      ansible.builtin.include_tasks: ../tasks/build_hds.inc.yml
-      loop: "{{ vms }}"
-      loop_control:
-        loop_var: vm
+
+#    - name: build hds
+#      ansible.builtin.include_tasks: ../tasks/build_hds.inc.yml
+#      loop: "{{ vms }}"
+#      loop_control:
+#        loop_var: vm

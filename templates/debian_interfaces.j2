@@ -7,15 +7,15 @@
 {% for nic in vm.network %}
 {% if nic.vm_net == "default" %}
 
-auto ens{{ loop.index }}
-allow-hotplug ens{{ loop.index }}
-iface ens{{ loop.index }} inet dhcp
+auto enp{{ loop.index }}s0
+allow-hotplug enp{{ loop.index }}s0
+iface enp{{ loop.index }}s0 inet dhcp
 
 {% else %}
 
-auto ens{{ loop.index }}
-allow-hotplug ens{{ loop.index }}
-iface ens{{ loop.index }} inet static
+auto enp{{ loop.index }}s0
+allow-hotplug enp{{ loop.index }}s0
+iface enp{{ loop.index }}s0 inet static
   address {{ nic.ip }}/{{ nic.subnet }}
 {% if nic.gw is defined %}
   gateway {{ nic.gw }}

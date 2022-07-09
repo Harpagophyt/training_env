@@ -1,0 +1,35 @@
+---
+- name: restart all vms
+  hosts: all
+  gather_facts: no
+
+  vars_files:
+    - ../vars/vars.yml
+
+  environment:
+    LANG: C
+
+  tasks:
+    - name: Wait for 30 seconds
+      ansible.builtin.pause:
+        seconds: 30
+
+    - name: Shutdown all vms
+      community.libvirt.virt:
+        name: "{{ vm.name }}"
+        command: shutdown
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: vm
+
+    - name: Wait for 30 seconds
+      ansible.builtin.pause:
+        seconds: 30
+
+    - name: Start all vms
+      community.libvirt.virt:
+        name: "{{ vm.name }}"
+        command: start
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: vm

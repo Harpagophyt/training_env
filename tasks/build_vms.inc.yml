@@ -1,0 +1,102 @@
+- name: create file for customize the build
+  template:
+    src: ../templates/{{ vm.type }}_build_commands.j2
+    dest: "{{ virt_builder_customize_temp_file }}_{{ vm.name }}"
+
+- name: built basic virt-install command string for {{ vm.type }} named {{ vm.name }}
+  set_fact:
+    cmd_virt_install:
+      - virt-install
+      - --name
+      - "{{ vm.name }}"
+      - --import
+      - --ram
+      - "{{ vm.ram }}"
+      - --disk
+      - '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+      - --osinfo
+      - "{{ vm.osinfo }}"
+      - --noautoconsole
+      - --autostart
+
+- name: add nics to virt-install command string
+  set_fact:
+    cmd_virt_install: >
+      {{ cmd_virt_install +
+        [ '--network' ] +
+        [
+          'network=' +
+          nic.vm_net +
+          ',' +
+          'mac=' +
+          nic.mac
+        ]
+      }}
+  loop: "{{ vm.network }}"
+  loop_control:
+    loop_var: nic
+
+- name: add hds to virt-install command string
+  set_fact:
+    cmd_virt_install: >
+      {{ cmd_virt_install +
+        [ '--disk' ] +
+        [ 'size=' + (disk.size | string) ]
+      }}
+  loop: "{{ vm.disks }}"
+  loop_control:
+    loop_var: disk
+  when:
+    - vm.disks is defined
+
+- name: print virt-install command for {{ vm.type }} named {{ vm.name }}
+  debug:
+    var: cmd_virt_install
+
+- name: build centos image named {{ vm.name }}
+  ansible.builtin.command:
+    argv:
+      - virt-builder
+      - "{{ vm.os }}"
+      - --size 
+      - "{{ vm.size }}"
+      - --hostname 
+      - '{{ vm.name + "." + vm_domain_name }}'
+      - --output 
+      - '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+      - --format 
+      - qcow2
+      - --commands-from-file
+      - "{{ virt_builder_customize_temp_file }}_{{ vm.name }}"
+    creates: '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+  when: vm.type == "centos"
+
+- name: build debian image named {{ vm.name }}
+  ansible.builtin.command:
+    argv:
+      - virt-builder
+      - "{{ vm.os }}"
+      - --size
+      - "{{ vm.size }}"
+      - --hostname
+      - '{{ vm.name + "." + vm_domain_name }}'
+      - --output
+      - '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+      - --format
+      - qcow2
+      - --write
+      - "/etc/network/interfaces.d/custom:{{ lookup('template', '../templates/debian_interfaces.j2') }}"
+      - --write
+      - "/etc/resolv.conf:{{ lookup('template', '../templates/resolv.conf.j2') }}"
+      - --commands-from-file
+      - "{{ virt_builder_customize_temp_file }}_{{ vm.name }}"
+    creates: '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+  when: vm.type == "debian"
+
+
+- name: install vm {{ vm.name }}
+  ansible.builtin.command:
+    argv: "{{ cmd_virt_install }}"
+  when: 
+    - vm.name not in existing_vms.list_vms
+

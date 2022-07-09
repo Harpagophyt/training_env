@@ -11,3 +11,5 @@
 - name: build vms
   import_playbook: playbooks/build_vms.yml
 
+#- name: Restart vms
+#  import_playbook: playbooks/restart_vms.yml
