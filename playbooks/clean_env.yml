@@ -1,6 +1,7 @@
 ---
 - name: clean environment
   hosts: all
+  gather_facts: no
 
   vars_files:
     - ../vars/vars.yml
@@ -43,23 +44,6 @@
       loop: "{{ vm_networks }}"
       loop_control:
         loop_var: vm_network
-
-#    - name: stop virtualization
-#      ansible.builtin.systemd:
-#        name: libvirtd.service
-#        enabled: no
-#        state: stopped
-#
-#    - name: stop cockpit
-#      ansible.builtin.systemd:
-#        name: cockpit.socket
-#        enabled: no
-#        state: stopped
-#
-#    - name: remove all for kvm
-#      ansible.builtin.yum:
-#        name: "{{ software }}"
-#        state: removed
 
     - name: remove harddisks
       ansible.builtin.file:

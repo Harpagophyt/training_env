@@ -1,6 +1,7 @@
 ---
 - name: generate ssh key 
   hosts: all
+  gather_facts: no
 
   vars_files:
     - ../vars/vars.yml

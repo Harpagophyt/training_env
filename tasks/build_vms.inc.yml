@@ -14,8 +14,14 @@
       - "{{ vm.ram }}"
       - --disk
       - '{{ vm_image_path + "/" + vm.name + ".qcow2" }}'
+      - --os-type
+      - linux
       - --osinfo
       - "{{ vm.osinfo }}"
+      - --graphics
+      - none
+      - --boot
+      - hd
       - --noautoconsole
       - --autostart
 
