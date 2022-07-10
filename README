@@ -3,8 +3,9 @@
 == Vorbereitung
 Kontrollieren, ob Plattenplatz genug vorhanden ist
 Variablen ändern in vars/vars.yml
-vm_image_path -> wohin die images gelegt werden sollen
-ssh_user -> welcher user ist der Teilnehmer, wer baut die Verbindungen auf?
+* vm_image_path -> wohin die images gelegt werden sollen
+* ssh_user -> welcher user ist der Teilnehmer, wer baut die Verbindungen auf?
+* ssh_user_home -> wo soll der ssh key ... hingestellt werden
 
 === bin/init.sh
 erzeugt das lokale environment

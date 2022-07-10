@@ -9,12 +9,13 @@ debian_download_url: "{{ debian_image_url }}/{{ debian_image_file }}"
 debian_checksum: "sha512:6606067c261aad6f0a079506b20f4e28237e2c03c1e8e00d0ad569fdb7c417dbc33614aaa4fb0592eaea8afcbde48d592dd4f68acddb44724841e00dc68ddcc0"
 
 vm_image_path: /var/lib/libvirt/images
-vm_domain_name: local.example.com
-force_generate_ssh_key: true
 ssh_user: root
 ssh_user_home: /root/
+#ssh_user_home: /home/{{ ssh_user }}/
+force_generate_ssh_key: true
 ssh_key_file_name: "{{ ssh_user_home }}/.ssh/vm"
 virt_builder_customize_temp_file: /tmp/virt_builder_customize_file
+vm_domain_name: local.example.com
 
 vm_networks:
   - name: local10_0_0_0
