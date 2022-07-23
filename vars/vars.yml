@@ -16,6 +16,7 @@ force_generate_ssh_key: true
 ssh_key_file_name: "{{ ssh_user_home }}/.ssh/vm"
 virt_builder_customize_temp_file: /tmp/virt_builder_customize_file
 vm_domain_name: local.example.com
+vm_root_password: redhat
 
 vm_networks:
   - name: local10_0_0_0

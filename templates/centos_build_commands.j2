@@ -1,4 +1,4 @@
-root-password password:redhat
+root-password password:{{ vm_root_password }}
 timezone Europe/Vienna
 edit /etc/ssh/sshd_config:s/^[#]?PermitRootLogin.*$/PermitRootLogin yes/
 ssh-inject root:file:{{ ssh_key_file_name }}.pub
