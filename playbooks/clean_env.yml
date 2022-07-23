@@ -25,6 +25,20 @@
         loop_var: vm
       ignore_errors: yes
 
+    - name: remove initial snapshots from vms
+      ansible.builtin.command:
+        argv:
+          - virsh
+          - snapshot-delete
+          - --domain
+          - "{{ vm.name }}"
+          - --snapshotname
+          - initial
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: vm
+      ignore_errors: yes
+
     - name: remove all vms with attached storage 
       ansible.builtin.command:
         argv:
