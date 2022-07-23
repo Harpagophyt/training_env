@@ -1,0 +1,20 @@
+---
+- name: Deploy the shell scripts
+  hosts: all
+  gather_facts: False
+
+  vars_files:
+    - ../vars/vars.yml
+
+  tasks:
+    - name: Copy the scripts
+      template:
+        src: "{{ script }}"
+        dest: "/usr/local/bin/{{ script | basename }}"
+        owner: root
+        group: root
+        mode: '0755'
+      with_fileglob:
+        - ../templates/scripts/*.sh
+      loop_control:
+        loop_var: script

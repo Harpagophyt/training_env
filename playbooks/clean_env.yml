@@ -55,3 +55,12 @@
       community.crypto.openssh_keypair:
         path: "{{ ssh_key_file_name }}"
         state: absent
+
+    - name: remove generated shell scripts
+      file:
+        state: absent
+        path: "/usr/local/bin/{{ script | basename }}"
+      with_fileglob:
+        - ../templates/scripts/*.sh
+      loop_control:
+        loop_var: script
