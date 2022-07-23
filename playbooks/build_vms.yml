@@ -19,9 +19,22 @@
       loop_control:
         loop_var: vm
 
+    - name: waiting for settle down before snapshot
+      ansible.builtin.pause:
+        minutes: 1
+        prompt: "Waiting for settle down before snapshot"
 
-#    - name: build hds
-#      ansible.builtin.include_tasks: ../tasks/build_hds.inc.yml
-#      loop: "{{ vms }}"
-#      loop_control:
-#        loop_var: vm
+    - name: do snapshot
+      ansible.builtin.command:
+        argv:
+          - virsh
+          - snapshot-create-as
+          - --domain
+          - "{{ vm.name }}"
+          - --description
+          - initial snapshot
+          - --name
+          - initial
+      loop: "{{ vms }}"
+      loop_control:
+        loop_var: vm
