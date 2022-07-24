@@ -10,6 +10,8 @@
       - --name
       - "{{ vm.name }}"
       - --import
+      - --vcpus
+      - "{{ vm.cpu | default(2) }}"
       - --ram
       - "{{ vm.ram }}"
       - --disk

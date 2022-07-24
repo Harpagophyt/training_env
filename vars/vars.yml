@@ -159,6 +159,21 @@ vms:
         size: 2
       - disk:
         size: 2
+  - name: node6
+    type: debian
+    os: debian-11
+    osinfo: debian11
+    cpu: 4
+    ram: 8192
+    size: 30G
+    dns: 10.0.1.254
+    network:
+      - nic:
+        vm_net: local10_0_1_0
+        mac: "52:54:00:00:01:06"
+        ip: 10.0.1.6
+        subnet: 24
+        gw: 10.0.1.254
 
 software:
   - git
