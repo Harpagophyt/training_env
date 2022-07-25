@@ -9,6 +9,7 @@ Variablen ändern in vars/vars.yml
 
 === bin/init.sh
 erzeugt das lokale environment
+erzeuge die known_hosts mit ssh-keyscan $(cat inventory/inventory) > ~/.ssh/known_hosts
 
 === bin/build_inventory.sh
 mit nmap wird eine Liste aller IP Adressen des subnets erzeugt.
