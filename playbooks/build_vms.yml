@@ -7,6 +7,14 @@
     - ../vars/vars.yml
 
   tasks:
+    - name: create directory for images
+      file:
+        state: directory
+        owner: root
+        group: root
+        mode: '00711'
+        path: "{{ vm_image_path }}"
+
     - name: get existings vms
       community.libvirt.virt:
         command: list_vms
