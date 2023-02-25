@@ -19,6 +19,8 @@
       community.crypto.openssh_keypair:
         path: "{{ ssh_key_file_name }}"
         state: present
+        owner: "{{ ssh_user }}"
+        group: "{{ ssh_user }}"
         force: "{{ force_generate_ssh_key | default(false, true) }}"
 
     - name: create ssh config file for {{ ssh_user }}
