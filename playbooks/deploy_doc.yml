@@ -9,7 +9,7 @@
   tasks:
     - name: Deploy the documentation
       ansible.builtin.template:
-        src: "vm_doc.j2"
+        src: "../templates/vm_doc.j2"
         dest: "{{ ssh_user_home }}/README"
         owner: "{{ ssh_user }}"
         group: "{{ ssh_user }}"
