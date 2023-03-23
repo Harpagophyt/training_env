@@ -1,6 +1,6 @@
 Es gibt {{ vms | length }} VMs:
 {% for vm in vms %}
-{{ vm.name }}   - {{ vm.osinfo }} mit {{ vm.network.nic | length }} Netzwerkkarten und {{ vm.disks.disk | length }} Festplatten
+{{ vm.name }}   - {{ vm.osinfo }} mit {{ vm.network | length }} Netzwerkkarten und {{ vm.disks | default([]) | length }} zusätzliche Festplatten
 {% endfor %}
 
 Steuern der VMs:
