@@ -1,17 +1,8 @@
 ---
-centos_image_url: https://cloud.centos.org/centos/9-stream/x86_64/images/
-centos_image_file: CentOS-Stream-GenericCloud-9-20220606.0.x86_64.qcow2
-centos_download_url: "{{ centos_image_url }}/{{ centos_image_file }}"
-centos_checksum: "sha256:41c8cce7b5ed9ba70f7f103f058bd6320e3462f2dc2c97db84ad7f1c6918a525"
-debian_image_url: https://cloud.debian.org/images/cloud/bullseye/latest/
-debian_image_file: debian-11-genericcloud-amd64.qcow2
-debian_download_url: "{{ debian_image_url }}/{{ debian_image_file }}"
-debian_checksum: "sha512:6606067c261aad6f0a079506b20f4e28237e2c03c1e8e00d0ad569fdb7c417dbc33614aaa4fb0592eaea8afcbde48d592dd4f68acddb44724841e00dc68ddcc0"
-
 vm_image_path: /var/lib/libvirt/images
-ssh_user: root
-ssh_user_home: /root/
-#ssh_user_home: /home/{{ ssh_user }}/
+ssh_user: student
+#ssh_user_home: /root/
+ssh_user_home: /home/{{ ssh_user }}/
 force_generate_ssh_key: true
 ssh_key_file_name: "{{ ssh_user_home }}/.ssh/vm"
 virt_builder_customize_temp_file: /tmp/virt_builder_customize_file
@@ -137,8 +128,9 @@ vms:
     type: debian
     os: debian-11
     osinfo: debian11
-    ram: 2048
-    size: 8G
+    cpu: 4
+    ram: 8192
+    size: 50G
     dns: 10.0.1.254
     network:
       - nic:
@@ -147,25 +139,12 @@ vms:
         ip: 10.0.1.5
         subnet: 24
         gw: 10.0.1.254
-      - nic:
-        mac: "52:54:00:00:02:05"
-        vm_net: local10_0_2_0
-        ip: 10.0.2.5
-        subnet: 24
-    disks:
-      - disk:
-        size: 2
-      - disk:
-        size: 2
-      - disk:
-        size: 2
   - name: node6
     type: debian
-    os: debian-11
-    osinfo: debian11
-    cpu: 4
-    ram: 8192
-    size: 30G
+    os: debian-8
+    osinfo: debian8
+    ram: 2048
+    size: 8G
     dns: 10.0.1.254
     network:
       - nic:
