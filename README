@@ -16,3 +16,6 @@ mit nmap wird eine Liste aller IP Adressen des subnets erzeugt.
 Das subnet muss angegeben werden.
 Beispiel: `bin/build_inventory.sh 192.168.1.0/24`
 
+== Dateien sharen
+Alle Dateien welche an Teilnehmer verteilt werden sollen, unter `shared_files` 
+legen und danach das Playbook `share.yml` ausführen.
