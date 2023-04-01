@@ -14,4 +14,4 @@
         directory_mode: "00755"
         mode: "00644"
         owner: "{{ ssh_user }}"
-        group: "{{ ssh_group }}"
+        group: "{{ ssh_user }}"
