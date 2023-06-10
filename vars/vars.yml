@@ -152,8 +152,8 @@ vms:
         gw: 10.0.1.254
   - name: node6
     type: debian
-    os: debian-9
-    osinfo: debian9
+    os: debian-11
+    osinfo: debian11
     ram: 2048
     size: 8G
     dns: 10.0.1.254
