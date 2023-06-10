@@ -22,8 +22,6 @@
         owner: "{{ ssh_user }}"
         group: "{{ ssh_user }}"
         force: "{{ force_generate_ssh_key | default(false, true) }}"
-        owner: "{{ ssh_user }}"
-        group: "{{ ssh_user }}"
         mode: '0400'
 
     - name: create ssh config file for {{ ssh_user }}
