@@ -169,7 +169,8 @@ software:
   - git
   - virt-install
   - libvirt
-  - guestfs-tools
+  - libguestfs-tools
+#  - guestfs-tools
   - cockpit-machines
   - sshpass
   - virt-manager
