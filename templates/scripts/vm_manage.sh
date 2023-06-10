@@ -8,10 +8,11 @@ fi
 
 if [[ $# != 2 ]]
 then
-        echo "Usage: $0 { all | vm_name } { start | shutdown | destroy }" >&2
-	echo "start    - means start"
-	echo "shutdown - means shutdown"
+        echo "Usage: $0 { all | vm_name } { destroy | reboot | shutdown | start }" >&2
 	echo "destroy  - means forced shutdown"
+	echo "reboot   - means stop and start"
+	echo "shutdown - means shutdown"
+	echo "start    - means start"
         exit 2
 fi
 
