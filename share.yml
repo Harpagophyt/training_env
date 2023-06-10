@@ -1,0 +1,17 @@
+---
+- name: Share files for training
+  hosts: all
+
+  vars_files:
+    - vars/vars.yml
+
+  tasks:
+
+    - name: Sync shared files
+      ansible.builtin.copy:
+        src: shared_files/
+        dest: "{{ ssh_user_home }}/shared_files/"
+        directory_mode: "00755"
+        mode: "00644"
+        owner: "{{ ssh_user }}"
+        group: "{{ ssh_user }}"

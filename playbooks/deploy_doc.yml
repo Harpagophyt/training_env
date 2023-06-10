@@ -1,0 +1,16 @@
+---
+- name: Deploy some documentation
+  hosts: all
+  gather_facts: false
+
+  vars_files:
+    - ../vars/vars.yml
+
+  tasks:
+    - name: Deploy the documentation
+      ansible.builtin.template:
+        src: "../templates/vm_doc.j2"
+        dest: "{{ ssh_user_home }}/README"
+        owner: "{{ ssh_user }}"
+        group: "{{ ssh_user }}"
+        mode: '0644'

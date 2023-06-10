@@ -14,5 +14,9 @@
 - name: deploy shell scripts for easy interact with vms
   import_playbook: playbooks/shell_scripts.yml
 
+- name: Deploy docu 
+  import_playbook: playbooks/deploy_doc.yml
+
+
 #- name: Restart vms
 #  import_playbook: playbooks/restart_vms.yml
