@@ -179,12 +179,18 @@ vms:
         subnet: 24
         gw: 10.0.1.254
 
-software:
+software_default:
   - git
   - virt-install
   - libvirt
-  - libguestfs-tools
-#  - guestfs-tools
   - cockpit-machines
   - sshpass
   - virt-manager
+
+software_centos_8:
+  - libguestfs-tools
+
+software_centos_9:
+  - guestfs_tools
+
+software: "{{ software_default + lookup('ansible.builtin.vars', 'software_centos_' + ansible_facts['distribution_version']) }}"
