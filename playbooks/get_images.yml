@@ -1,8 +1,6 @@
 ---
 - name: Download qcow2 images
   hosts: localhost
-  gather_facts: no
-
 
   vars_files:
     - vars.yml

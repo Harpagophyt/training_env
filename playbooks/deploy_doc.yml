@@ -1,7 +1,6 @@
 ---
 - name: Deploy some documentation
   hosts: all
-  gather_facts: false
 
   vars_files:
     - ../vars/vars.yml

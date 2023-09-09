@@ -1,7 +1,6 @@
 ---
 - name: clean environment
   hosts: all
-  gather_facts: no
 
   vars_files:
     - ../vars/vars.yml

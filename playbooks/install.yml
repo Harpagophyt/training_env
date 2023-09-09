@@ -1,7 +1,6 @@
 ---
 - name: install all software and start it
   hosts: all
-  gather_facts: no
 
   vars_files:
     - ../vars/vars.yml

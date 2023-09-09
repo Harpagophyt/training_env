@@ -1,7 +1,6 @@
 ---
 - name: Build all vms
   hosts: all
-  gather_facts: no
   
   vars_files:
     - ../vars/vars.yml

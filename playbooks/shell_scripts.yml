@@ -1,7 +1,6 @@
 ---
 - name: Deploy the shell scripts
   hosts: all
-  gather_facts: False
 
   vars_files:
     - ../vars/vars.yml
