@@ -191,6 +191,6 @@ software_centos_8:
   - libguestfs-tools
 
 software_centos_9:
-  - guestfs_tools
+  - guestfs-tools
 
 software: "{{ software_default + lookup('ansible.builtin.vars', 'software_centos_' + ansible_facts['distribution_version']) }}"
