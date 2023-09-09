@@ -1,7 +1,6 @@
 ---
 - name: restart all vms
   hosts: all
-  gather_facts: no
 
   vars_files:
     - ../vars/vars.yml
@@ -11,8 +10,11 @@
 
   tasks:
     - name: Wait for 30 seconds
-      ansible.builtin.pause:
-        seconds: 30
+      ansible.builtin.command:
+        argv:
+          - sleep
+          - 30
+      changed_when: false
 
     - name: Shutdown all vms
       community.libvirt.virt:
