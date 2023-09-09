@@ -10,11 +10,8 @@
 
   tasks:
     - name: Wait for 30 seconds
-      ansible.builtin.command:
-        argv:
-          - sleep
-          - 30
-      changed_when: false
+      ansible.builtin.pause:
+        seconds: 30
 
     - name: Shutdown all vms
       community.libvirt.virt:

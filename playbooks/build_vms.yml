@@ -26,10 +26,9 @@
       loop_control:
         loop_var: vm
 
-    - name: waiting for settle down before snapshot
+    - name: Waiting for settle down before snapshot
       ansible.builtin.pause:
-        minutes: 1
-        prompt: "Waiting for settle down before snapshot"
+        seconds: 60
 
     - name: do snapshot
       ansible.builtin.command:
