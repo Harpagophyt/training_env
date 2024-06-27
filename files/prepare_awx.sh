@@ -1,3 +1,11 @@
+#!/usr/bin/bash
+
+if $USER != "root"
+then
+    echo Run $0 as user root >&2
+    exit 1
+fi
+
 # Do the following steps as root
 # Install KVM
 dnf -y install snapd

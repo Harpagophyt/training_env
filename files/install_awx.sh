@@ -1,4 +1,11 @@
+#!/usr/bin/bash
+
 # Do the following steps as user
+if $USER == "root"
+then
+    echo Start $0 as user and not as root >&2
+    exit 1
+fi
 
 # Start minikube
 minikube start --vm-driver=kvm2 --cpus=4 --memory=8g --addons=ingress
