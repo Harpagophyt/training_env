@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo -v
-sudo dnf install -y epel-release
+sudo dnf config-manager --set-enabled crb
+sudo dnf install epel-release epel-next-release
 sudo dnf makecache -y
 sudo dnf install -y git ansible-core nmap openssh-askpass
 ansible-galaxy install -r requirements.yml
