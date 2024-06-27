@@ -1,75 +1,36 @@
-echo This script following https://computingforgeeks.com/how-to-install-ansible-awx-on-debian-buster/
-apt install -y git build-essential curl jq
-curl -sfL https://get.k3s.io | bash -
-chmod 644 /etc/rancher/k3s/k3s.yaml
-kubectl get nodes
+# Do the following steps as user
+
+# Start minikube
+minikube start --vm-driver=kvm2 --cpus=4 --memory=8g --addons=ingress
+
+# Deploy AWX
 git clone https://github.com/ansible/awx-operator.git
-export NAMESPACE=awx
-kubectl create ns ${NAMESPACE}
-kubectl config set-context --current --namespace=$NAMESPACE
-cd awx-operator/
-RELEASE_TAG=`curl -s https://api.github.com/repos/ansible/awx-operator/releases/latest | grep tag_name | cut -d '"' -f 4`
-echo $RELEASE_TAG
-git checkout $RELEASE_TAG
-export NAMESPACE=awx
+cd awx-operator
+git checkout 0.17.0
+export NAMESPACE=ansible-awx
 make deploy
+kubectl get pods -n $NAMESPACE
+cp awx-demo.yml ansible-awx.yml
+sed -ie 's/awx-demo/ansible-awx/' ansible-awx.yml # Change the name line to name: ansible-awx
+kubectl config set-context --current --namespace=$NAMESPACE
+kubectl apply -f ansible-awx.yml
+sleep 3
+for min in $(seq 15 -1 1)
+do
+    echo Wait $min minutes
+    echo You can use kubectl 'logs -f deployments/awx-operator-controller-manager -c awx-manager' for checking progress
+    sleep 60
+done
 
-echo $(date) - wait 60 seconds
-sleep 60
-kubectl get pods
-echo $(date) - wait 540 seconds
-sleep 540
-kubectl get pods
+# Check deployment
+kube_url=$(minikube service ansible-awx-service --url -n $NAMESPACE)
 
-cat <<EOF | kubectl create -f -
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: static-data-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
-  resources:
-    requests:
-      storage: 5Gi
+# Get the login password for admin user
+awx_pass=$(kubectl get secret ansible-awx-admin-password -o jsonpath="{.data.password}" | base64 --decode)
+
+cat <<EOF > ~/awx.pass
+URL: $kube_url
+User: admin
+Pass: $awx_pass
+You have to start "minikube start" after a reboot and wait 1 minute
 EOF
-
-cat > awx-deploy.yml<<EOF
----
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
-metadata:
-  name: awx
-spec:
-  service_type: nodeport
-  projects_persistence: true
-  projects_storage_access_mode: ReadWriteOnce
-  web_extra_volume_mounts: |
-    - name: static-data
-      mountPath: /var/lib/projects
-  extra_volumes: |
-    - name: static-data
-      persistentVolumeClaim:
-        claimName: static-data-pvc
-EOF
-kubectl apply -f awx-deploy.yml
-
-kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator" -n awx
-echo $(date) - wait 120 seconds
-sleep 120
-kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator" -n awx
-echo $(date) - wait 1080 seconds
-sleep 1080
-kubectl get pods -l "app.kubernetes.io/managed-by=awx-operator" -n awx
-
-#kubectl logs -f deployments/awx-operator-controller-manager -c awx-manager -n awx
-#kubectl get pvc -n awx
-#ls /var/lib/rancher/k3s/storage/
-kubectl get svc -l "app.kubernetes.io/managed-by=awx-operator" -n awx
-echo ======================================================================
-echo Ansible AWX web portal is now accessible on http://10.0.1.6:30080 
-echo Use previous portmap output to see which is the port for http connection
-echo Username: admin
-kubectl get secret awx-admin-password -o go-template='{{range $k,$v := .data}}{{printf "%s: " $k}}{{if not $v}}{{$v}}{{else}}{{$v | base64decode}}{{end}}{{"\n"}}{{end}}' -n awx
-echo ======================================================================
