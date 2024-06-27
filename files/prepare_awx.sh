@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-if $USER != "root"
+if [ $USER != "root" ]
 then
     echo Run $0 as user root >&2
     exit 1

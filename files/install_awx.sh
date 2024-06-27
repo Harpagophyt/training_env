@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # Do the following steps as user
-if $USER == "root"
+if [ $USER == "root" ]
 then
     echo Start $0 as user and not as root >&2
     exit 1
