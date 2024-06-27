@@ -3,7 +3,7 @@ vm_image_path: /var/lib/libvirt/images
 ssh_user: student
 #ssh_user_home: /root/
 ssh_user_home: /home/{{ ssh_user }}/
-force_generate_ssh_key: true
+force_generate_ssh_key: false
 ssh_key_file_name: "{{ ssh_user_home }}/.ssh/vm"
 virt_builder_customize_temp_file: /tmp/virt_builder_customize_file
 vm_domain_name: local.example.com
