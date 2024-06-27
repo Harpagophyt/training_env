@@ -1,5 +1,6 @@
 ---
 collections:
+  - community.general
   - community.libvirt
   - ansible.posix
   - community.crypto
