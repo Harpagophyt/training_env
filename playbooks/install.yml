@@ -6,10 +6,16 @@
     - ../vars/vars.yml
 
   tasks:
-    - name: install epel-release explicit
-      ansible.builtin.yum:
-        name: epel-release
-        state: present
+    - name: Ensure the crb repository is enabled
+      community.general.dnf_config_manager:
+        name: crb
+        state: enabled
+
+    - name: Install EPEL packages
+      ansible.builtin.dnf:
+        name:
+          - epel-releas
+          - epel-next-release
 
     - name: install all for kvm
       ansible.builtin.yum:
