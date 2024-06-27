@@ -1,21 +1,21 @@
 ---
 - name: Install software
-  import_playbook: playbooks/install.yml
+  ansible.builtin.import_playbook: playbooks/install.yml
 
 - name: generate local ssh keypair
-  import_playbook: playbooks/generate_sshkey.yml
+  ansible.builtin.import_playbook: playbooks/generate_sshkey.yml
 
 - name: create networks
-  import_playbook: playbooks/vm_network.yml
+  ansible.builtin.import_playbook: playbooks/vm_network.yml
 
 - name: build vms
-  import_playbook: playbooks/build_vms.yml
+  ansible.builtin.import_playbook: playbooks/build_vms.yml
 
 - name: deploy shell scripts for easy interact with vms
-  import_playbook: playbooks/shell_scripts.yml
+  ansible.builtin.import_playbook: playbooks/shell_scripts.yml
 
 - name: Deploy docu 
-  import_playbook: playbooks/deploy_doc.yml
+  ansible.builtin.import_playbook: playbooks/deploy_doc.yml
 
 
 #- name: Restart vms
