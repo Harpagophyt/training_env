@@ -4,6 +4,7 @@
 
   vars_files:
     - ../vars/vars.yml
+    - ../vars/vms_{{ training_type }}.yml
 
   tasks:
     - name: Ensure the crb repository is enabled
@@ -14,7 +15,7 @@
     - name: Install EPEL packages
       ansible.builtin.dnf:
         name:
-          - epel-releas
+          - epel-release
           - epel-next-release
 
     - name: install all for kvm

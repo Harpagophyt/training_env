@@ -6,6 +6,7 @@ Variablen ändern in vars/vars.yml
 * vm_image_path -> wohin die images gelegt werden sollen
 * ssh_user -> welcher user ist der Teilnehmer, wer baut die Verbindungen auf?
 * ssh_user_home -> wo soll der ssh key ... hingestellt werden
+* training_type -> ist es ein linux oder ansible training
 
 ## Partitionieren
 Nachstehend eine Beispielsitzung wo `/dev/sda` mit MS DOS Partitionierung,
@@ -37,3 +38,7 @@ erzeuge die `known_hosts` mit `ssh-keyscan $(cat inventory/inventory) >> ~/.ssh/
 ## Dateien sharen
 Alle Dateien welche an Teilnehmer verteilt werden sollen, unter `shared_files` 
 legen und danach das Playbook `share.yml` ausführen.
+
+## Starten
+`ansible-playbook playbook.yml -k` startet das ganze.
+Alternativ funtkioniert auch `ssh-pass -predhat ansible-playbook playbook.yml -k`
