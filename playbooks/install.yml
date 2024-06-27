@@ -40,3 +40,11 @@
         backrefs: yes
         regexp: "^(Defaults\\s+secure_path\\s*=\\s*.+(?<!\\/usr\\/local\\/bin))$"
         line: "\\1:/usr/local/bin"
+
+    - name: Add {{ ssh_user }} to libvirt group
+      ansible.builtin.user:
+        name: "{{ ssh_user }}"
+        groups: 
+          - libvirt
+          - wheel
+        append: yes
