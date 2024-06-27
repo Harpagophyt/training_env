@@ -186,6 +186,10 @@ software_default:
   - cockpit-machines
   - sshpass
   - virt-manager
+  - qemu-kvm
+  - wget
+  - make
+  - tar
 
 software_centos_8:
   - libguestfs-tools
