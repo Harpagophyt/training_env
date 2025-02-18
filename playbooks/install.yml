@@ -17,6 +17,7 @@
         name:
           - epel-release
           - epel-next-release
+      when: "ansible_facts['distribution_version']|int < 10"
 
     - name: install all for kvm
       ansible.builtin.yum:

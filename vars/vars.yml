@@ -24,7 +24,6 @@ software_default:
   - virt-install
   - libvirt
   - cockpit-machines
-  - sshpass
   - virt-manager
   - qemu-kvm
   - wget
@@ -33,8 +32,13 @@ software_default:
 
 software_centos_8:
   - libguestfs-tools
+  - sshpass
 
 software_centos_9:
+  - guestfs-tools
+  - sshpass
+
+software_centos_10:
   - guestfs-tools
 
 software: "{{ software_default + lookup('ansible.builtin.vars', 'software_centos_' + ansible_facts['distribution_version']) }}"

@@ -16,5 +16,6 @@
         mode: '0755'
       with_fileglob:
         - ../templates/scripts/*.sh
+        - ../templates/scripts/*.py
       loop_control:
         loop_var: script

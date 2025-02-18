@@ -16,6 +16,6 @@ firstboot-command nmcli connection modify enp1s0 ipv4.dns {{ vm.dns }} ipv4.dns-
 firstboot-command nmcli connection up enp1s0
 #firstboot-command dnf -y update
 #update
-install bash-completion,vim
-selinux-relabel
+#install bash-completion,vim
+#selinux-relabel
 

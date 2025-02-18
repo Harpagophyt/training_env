@@ -12,7 +12,7 @@ virsh list --all
 echo I do an ssh check too:
 for ip in {{ vms | map(attribute='network.0') | map(attribute='ip') | list | join(' ') }}
 do
-	sshpass -p {{ vm_root_password }} ssh \
+	ssh \
 		-o StrictHostKeyChecking=no \
                 -o ConnectTimeout=1 \
 		-o UserKnownHostsFile=/dev/null \
