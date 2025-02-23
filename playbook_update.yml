@@ -1,0 +1,24 @@
+---
+- name: Update the foundation
+  hosts: all,!trainer
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Update the foundation
+      ansible.builtin.dnf:
+        name:
+          - "*"
+        state: latest
+        update_cache: true
+      notify: Reboot the foundation
+
+    - name: Remove unused dependencies
+      ansible.builtin.dnf:
+        autoremove: true
+
+  handlers:
+    - name: Reboot the foundation
+      ansible.builtin.reboot:
+        connect_timeout: 5
+        reboot_timeout: 90
