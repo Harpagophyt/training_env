@@ -1,0 +1,30 @@
+---
+- name: Resize LV and filesystem
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+
+    - name: Resize /dev/sda3 to use 100% of remaining disk
+      community.general.parted:
+        device: /dev/sda
+        number: 2
+        state: present
+        resize: true
+        part_end: 100%
+
+    - name: Reload partition table
+      ansible.builtin.command: 
+        cmd: partprobe
+
+    - name: Resize physical volume on /dev/sda3
+      ansible.builtin.command: 
+        cmd: pvresize /dev/sda2
+
+    - name: Extend logical volume to use all free space
+      community.general.lvol:
+        vg: vg_system
+        lv: lv_training
+        size: 100%FREE
+        resizefs: true
