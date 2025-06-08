@@ -45,6 +45,8 @@
           - initial snapshot
           - --name
           - initial
+          - --disk-only
+          - --atomic
       loop: "{{ vms }}"
       loop_control:
         loop_var: vm
