@@ -40,5 +40,6 @@ software_centos_9:
 
 software_centos_10:
   - guestfs-tools
+  - python3-paramiko
 
 software: "{{ software_default + lookup('ansible.builtin.vars', 'software_centos_' + ansible_facts['distribution_version']) }}"
