@@ -3,3 +3,5 @@ dummy.j2
 *.swp
 *.swo
 .vscode
+.ansible
+.idea
