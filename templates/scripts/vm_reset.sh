@@ -17,11 +17,11 @@ then
 	for vm in {{ vms | map(attribute='name') | list | join(' ') }}
 	do
 		virsh snapshot-revert --domain ${vm} --snapshotname initial && \
-		virsh reboot --domain ${vm}
-		echo VM ${vm} finished - you should reboot the vm/s for time sync
+		virsh start --domain ${vm}
+		echo VM ${vm} reset and start finished
 	done
 else
 	virsh snapshot-revert --domain ${1}  --snapshotname initial && \
-	echo VM ${vm} finished - you should reboot the vm/s for time sync
+	virsh start --domain ${vm}
+	echo VM ${vm} reset and start finished
 fi
-	
