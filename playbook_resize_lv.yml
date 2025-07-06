@@ -15,12 +15,14 @@
         part_end: 100%
 
     - name: Reload partition table
-      ansible.builtin.command: 
+      ansible.builtin.command:
         cmd: partprobe
+      changed_when: false
 
     - name: Resize physical volume on /dev/sda3
-      ansible.builtin.command: 
+      ansible.builtin.command:
         cmd: pvresize /dev/sda2
+      changed_when: false
 
     - name: Extend logical volume to use all free space
       community.general.lvol:
