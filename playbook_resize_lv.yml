@@ -27,6 +27,6 @@
     - name: Extend logical volume to use all free space
       community.general.lvol:
         vg: vg_system
-        lv: lv_training
+        lv: lv_home
         size: 100%FREE
         resizefs: true
