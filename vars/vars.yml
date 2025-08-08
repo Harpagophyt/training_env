@@ -37,6 +37,7 @@ software_centos_8:
 software_centos_9:
   - guestfs-tools
   - sshpass
+  - python3-paramiko
 
 software_centos_10:
   - guestfs-tools
